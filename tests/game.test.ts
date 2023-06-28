@@ -53,6 +53,15 @@ describe('Testing game file', () => {
         ];
 
         expect(game.players[0].checkStair(group)).toBeFalsy();
+
+        group = [
+            createCard(Rank.Three, Suit.Clubs),
+            createCard(Rank.Two, Suit.Diamonds),
+            createCard(Rank.Ace, Suit.Clubs),
+            createCard(Rank.Four, Suit.Clubs),
+        ];
+
+        expect(game.players[0].checkStair(group)).toBeFalsy();
     });
 
     test('Testing game checkGroup fucntion', () => {
