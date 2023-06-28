@@ -1,7 +1,82 @@
-import { createCard, getRank, getSuit, Rank, RankEntries, Suit, SuitEntries } from '../src/cards';
+import { createCard, getRank, getSuit, Rank, RankEntries, shuffle, Suit, SuitEntries } from '../src/cards';
 import { Player, Game } from '../src/game';
 
 describe('Testing game file', () => {
+
+    test('Testing game checkWin fucntion', () => {
+        const trials = 100;
+        const game = new Game(2);
+        game.deal();
+
+        game.players[0].hand = [
+            createCard(Rank.Ace, Suit.Hearts),
+            createCard(Rank.Two, Suit.Hearts),
+            createCard(Rank.Three, Suit.Hearts),
+
+
+            createCard(Rank.Ace, Suit.Hearts),
+            createCard(Rank.Ace, Suit.Diamonds),
+            createCard(Rank.Ace, Suit.Hearts),
+
+            createCard(Rank.Ace, Suit.Clubs),
+            createCard(Rank.Two, Suit.Clubs),
+            createCard(Rank.Three, Suit.Clubs),
+            createCard(Rank.Four, Suit.Clubs),
+            createCard(Rank.Five, Suit.Clubs),
+        ];
+
+        for (let i = 0; i < trials; i++) {
+            shuffle(game.players[0].hand);
+            expect(game.players[0].checkWin()).toBeTruthy();
+        }
+
+        game.players[0].hand = [
+            createCard(Rank.Ace, Suit.Clubs),
+            createCard(Rank.Two, Suit.Diamonds),
+            createCard(Rank.Three, Suit.Diamonds),
+
+
+            createCard(Rank.Ace, Suit.Clubs),
+            createCard(Rank.Ace, Suit.Hearts),
+            createCard(Rank.Three, Suit.Spades),
+
+            createCard(Rank.Ace, Suit.Spades),
+            createCard(Rank.Two, Suit.Clubs),
+            createCard(Rank.Three, Suit.Hearts),
+            createCard(Rank.Four, Suit.Spades),
+            createCard(Rank.Five, Suit.Clubs),
+        ];
+
+
+        for (let i = 0; i < trials; i++) {
+            shuffle(game.players[0].hand);
+            expect(game.players[0].checkWin()).toBeFalsy();
+        }
+
+
+        game.players[0].hand = [
+            createCard(Rank.Jack, Suit.Spades),
+            createCard(Rank.Jack, Suit.Spades),
+            createCard(Rank.Jack, Suit.Spades),
+
+
+            createCard(Rank.Five, Suit.Diamonds),
+            createCard(Rank.Six, Suit.Diamonds),
+            createCard(Rank.Seven, Suit.Diamonds),
+            createCard(Rank.Eight, Suit.Diamonds),
+
+            createCard(Rank.Ace, Suit.Hearts),
+            createCard(Rank.Two, Suit.Hearts),
+            createCard(Rank.Three, Suit.Hearts),
+            createCard(Rank.Four, Suit.Hearts),
+        ];
+
+        for (let i = 0; i < trials; i++) {
+            shuffle(game.players[0].hand);
+            expect(game.players[0].checkWin()).toBeTruthy();
+        }
+
+    });
 
     test('Testing game checkSequence fucntion', () => {
         const game = new Game(2);
