@@ -1,8 +1,15 @@
-import { Card, Deck, createDeck } from './cards';
+import { Card, Deck, createDeck, shuffle } from './cards';
+
+export enum State {
+    Wait,
+    Choose,
+    Leave
+}
 
 export class Player {
     hand: Deck = [];
     reserve: Deck = [];
+    state: State = State.Wait;
 
     add(card: Card) {
         if (this.hand.length > 11) {
@@ -85,6 +92,34 @@ export class Player {
     checkSize(a: number, b: number, c: number): Boolean {
         return a + b + c == 11 && a >= 3 && b >= 3 && c >= 3;
     }
+
+    choose(deck: Deck) {
+        if (this.state !== State.Choose) {
+            throw new Error("Player not in choose state");
+        }
+
+        const card = deck.pop();
+        if (card !== undefined) {
+            this.hand.push();
+            this.state = State.Leave;
+        } else {
+            throw new Error("No cards in argument deck");
+        }
+    }
+
+    leave(index: number, nextPlayer: Player) {
+        if (this.state !== State.Leave) {
+            throw new Error("Player not in leave state");
+        }
+        if (index < 0 || index > this.hand.length) {
+            throw new Error("Index out of bounds");
+        }
+
+        const [card] = this.hand.splice(index, 1);
+        nextPlayer.addReserve(card);
+        nextPlayer.state = State.Choose;
+        this.state = State.Wait;
+    }
 }
 
 export class Game {
@@ -98,11 +133,17 @@ export class Game {
         }
 
         this.deck = createDeck(1);
+        shuffle(this.deck);
     }
 
     play() {
         this.deal();
 
+        // 1. Player chooses reserve or deck
+        // 2. Player takes from reserve or deck
+        // 3. Player checks they have won
+        // 4. Player chooses card to leave
+        // 5. Player leaves card in next player's reserve
     }
 
     deal() {

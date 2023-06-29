@@ -36,6 +36,29 @@ export enum Rank {
     King = 16 << 12,
 }
 
+const SuitToSvg = {
+    "Clubs": "C",
+    "Diamonds": "D",
+    "Hearts": "H",
+    "Spades": "S",
+};
+
+const RankToSvg = {
+    "Ace": "A",
+    "Two": "2",
+    "Three": "3",
+    "Four": "4",
+    "Five": "5",
+    "Six": "6",
+    "Seven": "7",
+    "Eight": "8",
+    "Nine": "9",
+    "Ten": "10",
+    "Jack": "J",
+    "Queen": "Q",
+    "King": "K",
+};
+
 export const RankEntries = Object.entries(Rank).slice(13);
 export const SuitEntries = Object.entries(Suit).slice(4);
 
@@ -44,27 +67,6 @@ export type Card = number;
 export function createCard(rank: Rank, suit: Suit): Card {
     return rank | suit;
 }
-
-export type Deck = Card[];
-
-export function createEmptyDeck(): Deck {
-    return [];
-}
-
-export function createDeck(size: number): Deck {
-    let deck = []
-    for (let s = 0; s < size; s++) {
-
-        for (let [suit, _] of SuitEntries) {
-            for (let [rank, _] of RankEntries) {
-                deck.push(createCard((<any>Rank)[rank], (<any>Suit)[suit]));
-            }
-        }
-    }
-
-    return deck;
-}
-
 
 export function getSuit(card: Card): Suit {
     const suitb = ((1 << 4) - 1) & card;
@@ -89,6 +91,36 @@ export function getRank(card: Card): Rank {
 export function getString(card: Card): String {
     return `${getSuit(card)} ${getRank(card)}`
 }
+
+export function getSVG(card: Card): String {
+    const [suit, rank] = getString(card).split(" ");
+    let svg = ""
+    svg += RankToSvg[rank as keyof typeof RankToSvg]
+    svg += SuitToSvg[suit as keyof typeof SuitToSvg]
+
+    return svg;
+}
+
+export type Deck = Card[];
+
+export function createEmptyDeck(): Deck {
+    return [];
+}
+
+export function createDeck(size: number): Deck {
+    let deck = []
+    for (let s = 0; s < size; s++) {
+
+        for (let [suit, _] of SuitEntries) {
+            for (let [rank, _] of RankEntries) {
+                deck.push(createCard((<any>Rank)[rank], (<any>Suit)[suit]));
+            }
+        }
+    }
+
+    return deck;
+}
+
 
 export function shuffle(deck: Deck) {
     let current_index = deck.length;
