@@ -100,14 +100,14 @@ export class Player {
 
         const card = deck.pop();
         if (card !== undefined) {
-            this.hand.push();
+            this.hand.push(card);
             this.state = State.Leave;
         } else {
             throw new Error("No cards in argument deck");
         }
     }
 
-    leave(index: number, nextPlayer: Player) {
+    leave(index: number): Card {
         if (this.state !== State.Leave) {
             throw new Error("Player not in leave state");
         }
@@ -116,34 +116,29 @@ export class Player {
         }
 
         const [card] = this.hand.splice(index, 1);
-        nextPlayer.addReserve(card);
-        nextPlayer.state = State.Choose;
         this.state = State.Wait;
+        return card;
     }
 }
 
 export class Game {
     players: Player[] = [];
     deck: Deck = [];
+    player: Player;
+    playerIndex: number = 0;;
 
     constructor(numberPlayers: number) {
         if (numberPlayers < 2) throw new Error("Game needs atleast 2 player");
         for (let i = 0; i < numberPlayers; i++) {
             this.players.push(new Player());
         }
+        this.player = this.players[this.playerIndex];
 
         this.deck = createDeck(1);
         shuffle(this.deck);
-    }
 
-    play() {
         this.deal();
-
-        // 1. Player chooses reserve or deck
-        // 2. Player takes from reserve or deck
-        // 3. Player checks they have won
-        // 4. Player chooses card to leave
-        // 5. Player leaves card in next player's reserve
+        this.player.state = State.Choose;
     }
 
     deal() {
@@ -157,6 +152,14 @@ export class Game {
                 }
             }
         }
+    }
+
+    nextPlayer(card: Card) {
+        this.playerIndex = (this.playerIndex + 1) % this.players.length;
+        this.player = this.players[this.playerIndex];
+
+        this.player.addReserve(card);
+        this.player.state = State.Choose;
     }
 
 }

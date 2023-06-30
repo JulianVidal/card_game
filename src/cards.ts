@@ -88,11 +88,11 @@ export function getRank(card: Card): Rank {
     throw new Error("Rank not found");
 }
 
-export function getString(card: Card): String {
+export function getString(card: Card): string {
     return `${getSuit(card)} ${getRank(card)}`
 }
 
-export function getSVG(card: Card): String {
+export function getSVG(card: Card): string {
     const [suit, rank] = getString(card).split(" ");
     let svg = ""
     svg += RankToSvg[rank as keyof typeof RankToSvg]
