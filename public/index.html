@@ -4,29 +4,46 @@
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <div id="game"> 
-        <div id="deck">
-            <img class="card" src="./cards/BLUE_BACK.svg"/>
-        </div>
+    <div id="game" hidden> 
+        <div class="hand">
+            <img id="deck" class="card" src="./cards/BLUE_BACK.svg"/>
+            <img id="reserve" class="card" src="./cards/RED_BACK.svg"/>
+            <img id="next" class="card" src="./cards/BLUE_BACK.svg"/>
 
-        <div id="reserve">
-            <img class="card" src="./cards/RED_BACK.svg"/>
         </div>
-
         <div id="player"> 
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
-            <img class="card" />
+            <img class="card" data-index="0"/>
+            <img class="card" data-index="1" />
+            <img class="card" data-index="2" />
+            <img class="card" data-index="3" />
+            <img class="card" data-index="4" />
+            <img class="card" data-index="5" />
+            <img class="card" data-index="6" />
+            <img class="card" data-index="7" />
+            <img class="card" data-index="8" />
+            <img class="card" data-index="9" />
+            <img class="card" data-index="10" />
         </div>
     </div>
+
+    <div id="webrtc">
+        <h1> This is a webrtc demo </h1>
+        <h2> Create Offer </h2>
+        <input type="button" id="offer-button" value="Create Offer"/>
+        <textarea type="text" id="offer-box" style="width:90vw; height:20vh"></textarea>
+
+        <h2> Create Answer </h2>
+        <input type="button" id="answer-button" value="Create Answer"/>
+        <textarea type="text" id="answer-box" style="width:90vw; height:20vh"></textarea>
+
+        <h2> Add Answer </h2>
+        <input type="button" id="answer-add-button" value="Add Answer"/>
+
+        <h2> Send Answer </h2>
+        <input type="button" id="send-button" value="Send message"/>
+        <textarea type="text" id="message-box" style="width:90vw; height:20vh"></textarea>
+    </div>
+
     <script src="index-bundle.js"></script>
 </body>
 </html>
