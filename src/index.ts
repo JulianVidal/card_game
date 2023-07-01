@@ -20,13 +20,15 @@ const servers = {
     ]
 };
 
+// const servers = {"iceServers":[]};
+
 async function createPeerConnection(type: string) {
     pc = new RTCPeerConnection(servers);
 
     dataChannel = pc.createDataChannel("datachannel");
 
 
-    const handleMessage = function(e) { console.log("DC message:" + e.data); };
+    const handleMessage = function(e: MessageEvent) { console.log("DC message:" + e.data); };
     const handleoOpen = function() { console.log("------ DATACHANNEL OPENED ------");};
     const handleClose = function() { console.log("------- DC closed! -------") };
     const handleError = function() { console.log("DC ERROR!!!") };
@@ -81,6 +83,8 @@ async function addAnswer() {
 
     if (!pc.currentRemoteDescription) {
         pc.setRemoteDescription(answer)
+    } else {
+        throw new Error("Connection already made");
     }
 
 }
