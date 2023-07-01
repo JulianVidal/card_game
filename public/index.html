@@ -28,13 +28,22 @@
 
     <div id="webrtc">
         <h1> This is a webrtc demo </h1>
+        
+        <h2> Camera for qr scans </h2>
+        <video id="qr-video"></video>
+
         <h2> Create Offer </h2>
         <input type="button" id="offer-button" value="Create Offer"/>
+        <input type="button" id="offer-qr-button" value="Scan QR offer"/>
         <textarea type="text" id="offer-box" style="width:90vw; height:20vh"></textarea>
+        <div id="offer-qr"></div>
+
 
         <h2> Create Answer </h2>
         <input type="button" id="answer-button" value="Create Answer"/>
+        <input type="button" id="answer-qr-button" value="Scan QR answer"/>
         <textarea type="text" id="answer-box" style="width:90vw; height:20vh"></textarea>
+        <div id="answer-qr"></div>
 
         <h2> Add Answer </h2>
         <input type="button" id="answer-add-button" value="Add Answer"/>

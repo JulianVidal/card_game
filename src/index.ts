@@ -1,3 +1,40 @@
+import qrcode from 'qrcode-generator';
+import QrScanner from 'qr-scanner';
+
+const videoElement = document.getElementById("qr-video") as HTMLVideoElement;
+videoElement.style.width = "90vw";
+videoElement.style.display = "none";
+
+const offerQR = document.getElementById("offer-qr-button") as HTMLButtonElement;
+const answerQR = document.getElementById("answer-qr-button") as HTMLButtonElement;
+
+offerQR.onclick = () => { qr("offer"); };
+answerQR.onclick = () => { qr("answer"); };
+
+function qr(type: string) {
+    const box = document.getElementById(type + "-box") as HTMLTextAreaElement;
+    videoElement.style.display = "";
+
+    const qrScanner = new QrScanner(
+        videoElement,
+        result => {
+            box.value = result.data;
+            videoElement.style.display = "none";
+            qrScanner.stop();
+            if (type === "answer") {
+                // addAnswer();
+            }
+        },
+        { highlightScanRegion: true }
+    );
+    qrScanner.start();
+}
+
+function onQrScan(result: { data: string }) {
+    console.log('decoded qr code:', result);
+}
+
+
 const offerBox = document.getElementById("offer-box") as HTMLTextAreaElement;
 const offerBtn = document.getElementById("offer-button") as HTMLInputElement;
 const answerBox = document.getElementById("answer-box") as HTMLTextAreaElement;
@@ -29,7 +66,7 @@ async function createPeerConnection(type: string) {
 
 
     const handleMessage = function(e: MessageEvent) { console.log("DC message:" + e.data); };
-    const handleoOpen = function() { console.log("------ DATACHANNEL OPENED ------");};
+    const handleoOpen = function() { console.log("------ DATACHANNEL OPENED ------"); };
     const handleClose = function() { console.log("------- DC closed! -------") };
     const handleError = function() { console.log("DC ERROR!!!") };
 
@@ -48,8 +85,13 @@ async function createPeerConnection(type: string) {
 
     pc.onicecandidate = async (event: RTCPeerConnectionIceEvent) => {
         if (event.candidate) {
-            const box = document.getElementById(type + "-box") as HTMLTextAreaElement;
-            box.value = JSON.stringify(pc.localDescription)
+            if (pc.localDescription != null) {
+                const box = document.getElementById(type + "-box") as HTMLTextAreaElement;
+                box.value = JSON.stringify(pc.localDescription)
+                createQRCode(pc.localDescription, type + '-qr');
+            } else {
+                throw new Error("Peer connection local description is null");
+            }
         }
     }
 }
@@ -59,6 +101,18 @@ async function createOffer() {
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
     offerBox.value = JSON.stringify(offer);
+
+    createQRCode(offer, 'offer-qr');
+}
+
+function createQRCode(data: RTCSessionDescriptionInit, elId: string) {
+    const qr = qrcode(0, 'L' as ErrorCorrectionLevel);
+    qr.addData(JSON.stringify(data));
+    qr.make();
+    const el = document.getElementById(elId);
+    if (el) {
+        el.innerHTML = qr.createSvgTag();
+    }
 }
 
 async function createAnswer() {
@@ -73,6 +127,7 @@ async function createAnswer() {
     await pc.setLocalDescription(answer)
 
     answerBox.value = JSON.stringify(answer)
+    createQRCode(answer, 'answer-qr');
 }
 
 async function addAnswer() {
@@ -80,6 +135,7 @@ async function addAnswer() {
         throw new Error("Copy answer to box");
 
     const answer = JSON.parse(answerBox.value)
+    console.log(answer);
 
     if (!pc.currentRemoteDescription) {
         pc.setRemoteDescription(answer)
