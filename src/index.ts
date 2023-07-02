@@ -1,11 +1,19 @@
-import { Rank, Suit, createCard, getSVG, getString, shuffle } from "./cards";
-// import { displayPlayerHand, setup } from "./display";
-// import { Player, Game, State } from "./game";
+import { displayPlayerHand, setup } from "./display";
+import { Player, Game, State } from "./game";
 
-// const game = new Game(2);
+const game = new Game(2);
 
-// setup(game);
-// displayPlayerHand(game.player);
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event: MessageEvent) {
+    console.log("iframe", event);
+    setup(game);
+    displayPlayerHand(game.player);
+}
+
+function sendMessage(msg: string) {
+    window.parent.postMessage("Hello");
+}
 
 // function timer(anon: Function) {
 //     const Trials = 100;

@@ -1,4 +1,5 @@
 import { createQrCode } from "./qrcode";
+import { handleDCMessage as handleMessage, handleDCOpen as handleOpen } from './answer';
 
 let pc: RTCPeerConnection;
 let dataChannel: RTCDataChannel;
@@ -16,26 +17,23 @@ const servers = {
 
 // const servers = {"iceServers":[]};
 
-async function createPeerConnection(type: string) {
+async function createPeerConnection() {
     pc = new RTCPeerConnection(servers);
 
     dataChannel = pc.createDataChannel("datachannel");
 
-
-    const handleMessage = function(e: MessageEvent) { console.log("DC message:" + e.data); };
-    const handleoOpen = function() { console.log("------ DATACHANNEL OPENED ------"); };
     const handleClose = function() { console.log("------- DC closed! -------") };
     const handleError = function() { console.log("DC ERROR!!!") };
 
     dataChannel.onmessage = handleMessage;
-    dataChannel.onopen = handleoOpen;
+    dataChannel.onopen = handleOpen;
     dataChannel.onclose = handleClose;
     dataChannel.onerror = handleError;
 
     pc.ondatachannel = function(event: RTCDataChannelEvent) {
         const receive = event.channel;
         receive.onmessage = handleMessage;
-        receive.onopen = handleoOpen;
+        receive.onopen = handleOpen;
         receive.onclose = handleClose;
         receive.onerror = handleError;
     };
@@ -54,7 +52,7 @@ async function createPeerConnection(type: string) {
 }
 
 export async function createOffer() {
-    createPeerConnection("offer");
+    createPeerConnection();
     const offer = await pc.createOffer();
     await pc.setLocalDescription(offer);
 
@@ -63,7 +61,7 @@ export async function createOffer() {
 
 
 export async function createAnswer(offer: RTCSessionDescriptionInit) {
-    createPeerConnection("answer");
+    createPeerConnection();
 
     await pc.setRemoteDescription(offer)
 

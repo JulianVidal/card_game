@@ -1,18 +1,20 @@
 <html>
+
 <head>
     <link rel="stylesheet" href="cards.css">
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
-    <div id="game" hidden> 
+    <div id="game">
         <div class="hand">
-            <img id="deck" class="card" src="./cards/BLUE_BACK.svg"/>
-            <img id="reserve" class="card" src="./cards/RED_BACK.svg"/>
-            <img id="next" class="card" src="./cards/BLUE_BACK.svg"/>
+            <img id="deck" class="card" src="./cards/BLUE_BACK.svg" />
+            <img id="reserve" class="card" src="./cards/RED_BACK.svg" />
+            <img id="next" class="card" src="./cards/BLUE_BACK.svg" />
 
         </div>
-        <div id="player"> 
-            <img class="card" data-index="0"/>
+        <div id="player">
+            <img class="card" data-index="0" />
             <img class="card" data-index="1" />
             <img class="card" data-index="2" />
             <img class="card" data-index="3" />
@@ -26,33 +28,7 @@
         </div>
     </div>
 
-    <div id="webrtc">
-        <h1> This is a webrtc demo </h1>
-        
-        <h2> Camera for qr scans </h2>
-        <video id="qr-video"></video>
-
-        <h2> Create Offer </h2>
-        <input type="button" id="offer-button" value="Create Offer"/>
-        <input type="button" id="offer-qr-button" value="Scan QR offer"/>
-        <textarea type="text" id="offer-box" style="width:90vw; height:20vh"></textarea>
-        <div id="offer-qr"></div>
-
-
-        <h2> Create Answer </h2>
-        <input type="button" id="answer-button" value="Create Answer"/>
-        <input type="button" id="answer-qr-button" value="Scan QR answer"/>
-        <textarea type="text" id="answer-box" style="width:90vw; height:20vh"></textarea>
-        <div id="answer-qr"></div>
-
-        <h2> Add Answer </h2>
-        <input type="button" id="answer-add-button" value="Add Answer"/>
-
-        <h2> Send Answer </h2>
-        <input type="button" id="send-button" value="Send message"/>
-        <textarea type="text" id="message-box" style="width:90vw; height:20vh"></textarea>
-    </div>
-
     <script src="index-bundle.js"></script>
 </body>
+
 </html>

@@ -163,3 +163,15 @@ export class Game {
     }
 
 }
+
+export class GameGuest {
+    player: Player;
+
+    constructor() {
+        this.player = new Player();
+    }
+
+    nextPlayer(card: Card) {
+    }
+
+}

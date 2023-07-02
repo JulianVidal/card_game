@@ -15,3 +15,4 @@ readQrCode((scanner: QrScanner, data: RTCSessionDescriptionInit) => {
     addAnswer(data);
 
 }, videoEl);
+
