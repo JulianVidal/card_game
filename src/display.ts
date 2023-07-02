@@ -36,7 +36,7 @@ function handleNextClick(_e: MouseEvent, game: Game) {
 
 function handleReserveClick(_e: MouseEvent, game: Game) {
     try {
-        game.player.choose(game.player.reserve);
+        game.player.choose(game.player.reserve.pop());
         displayPlayerHand(game.player);
     } catch (err) {
         console.error(`Failed to get card from reserve. ${err}`);
@@ -45,7 +45,7 @@ function handleReserveClick(_e: MouseEvent, game: Game) {
 
 function handleDeckClick(_e: MouseEvent, game: Game) {
     try {
-        game.player.choose(game.deck);
+        game.player.choose(game.deck.pop());
         displayPlayerHand(game.player);
     } catch (err) {
         console.error(`Failed to get card from deck. ${err}`);

@@ -13,6 +13,8 @@
 // 00000000000010 1000
 //
 
+import { Player } from "./game";
+
 export enum Suit {
     Clubs = 1,
     Diamonds = 1 << 1,

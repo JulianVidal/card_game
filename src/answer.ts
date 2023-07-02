@@ -29,6 +29,7 @@ function sendIframMessage(msg: string) {
     if (gameLoaded) {
         if (game) {
             if (game.contentWindow) {
+                console.log(`Sent ${msg} to iframe ${window.location.pathname}`);
                 game.contentWindow.postMessage(msg);
             }
         }
@@ -39,13 +40,13 @@ function sendIframMessage(msg: string) {
 
 
 function receiveMessage(event: MessageEvent) {
-    console.log("From iframe", event.data);
+    console.log("Received From iframe", event.data);
 
     sendMessage(event.data);
 
 }
 export function handleDCMessage(e: MessageEvent) {
-    console.log("DC message:" + e.data);
+    console.log("Received DC message:" + e.data);
 
     sendIframMessage(e.data);
 };
@@ -61,4 +62,6 @@ export function handleDCOpen() {
     if (gameElement) {
         gameElement.hidden = false;
     }
+
+    sendIframMessage("start");
 };

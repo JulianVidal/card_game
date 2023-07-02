@@ -93,17 +93,16 @@ export class Player {
         return a + b + c == 11 && a >= 3 && b >= 3 && c >= 3;
     }
 
-    choose(deck: Deck) {
+    choose(card: Card | undefined) {
         if (this.state !== State.Choose) {
             throw new Error("Player not in choose state");
         }
 
-        const card = deck.pop();
         if (card !== undefined) {
             this.hand.push(card);
             this.state = State.Leave;
         } else {
-            throw new Error("No cards in argument deck");
+            throw new Error("No cards in argument");
         }
     }
 
@@ -111,6 +110,7 @@ export class Player {
         if (this.state !== State.Leave) {
             throw new Error("Player not in leave state");
         }
+
         if (index < 0 || index > this.hand.length) {
             throw new Error("Index out of bounds");
         }
@@ -169,9 +169,6 @@ export class GameGuest {
 
     constructor() {
         this.player = new Player();
-    }
-
-    nextPlayer(card: Card) {
     }
 
 }

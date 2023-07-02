@@ -25,10 +25,10 @@ async function createPeerConnection() {
     const handleClose = function() { console.log("------- DC closed! -------") };
     const handleError = function() { console.log("DC ERROR!!!") };
 
-    dataChannel.onmessage = handleMessage;
-    dataChannel.onopen = handleOpen;
-    dataChannel.onclose = handleClose;
-    dataChannel.onerror = handleError;
+    // dataChannel.onmessage = handleMessage;
+    // dataChannel.onopen = handleOpen;
+    // dataChannel.onclose = handleClose;
+    // dataChannel.onerror = handleError;
 
     pc.ondatachannel = function(event: RTCDataChannelEvent) {
         const receive = event.channel;
@@ -82,4 +82,5 @@ export async function addAnswer(answer: RTCSessionDescriptionInit) {
 
 export function sendMessage(msg: string) {
     dataChannel.send(msg);
+    console.log("Sent to DC " + msg);
 }

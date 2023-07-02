@@ -7,6 +7,7 @@ module.exports = {
     "index": "./src/index.ts",
     "offer/index": "./src/offer.ts",
     "answer/index": "./src/answer.ts",
+    "guest/index": "./src/guest.ts",
   },
   output: {
     path: path.resolve(__dirname, './public'),
