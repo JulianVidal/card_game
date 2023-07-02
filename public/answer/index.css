@@ -1,0 +1,14 @@
+#qr {
+	width: min(95vw, 95vh);
+	margin: auto;
+}
+
+#scan {
+	width: min(95vw, 95vh);
+	margin: auto;
+}
+
+#qr>svg {
+	width: 100%;
+	height: auto;
+}
