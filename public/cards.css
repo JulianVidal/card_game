@@ -9,7 +9,7 @@ img.card {
 }
 
 img.card:hover {
-	transform: TranslateY(-10%);
+	/* transform: TranslateY(-10%); */
 }
 
 img.card.selected-card {

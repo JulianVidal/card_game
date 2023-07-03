@@ -1,24 +1,27 @@
 import { displayPlayerHand, setup } from "./display";
-import { Player, Game, State } from "./game";
+import { Game, Player, State } from "./game";
 
-let game;
-
+const game = new Game(2);
 window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage({ data }: MessageEvent) {
-    console.log(`Received from window ${data}`);
+    console.log(`Host Received from window ${data}`);
 
     switch (data) {
         case "start":
-            game = new Game(2);
-            setup(game, "./cards");
+            setup(game.player, handleDeckClick);
             sendMessage("hand " + JSON.stringify(game.players[1].hand));
-            console.log("Started and sent hand");
+            console.log("Host Started");
+            console.log("Sent hand");
 
             displayPlayerHand(game.player);
 
             console.log(JSON.stringify(game));
-        break;
+            break;
+        case "pop":
+            sendMessage("deck " + game.deck.pop());
+            console.log("Sent deck pop");
+            break;
     }
 }
 
@@ -26,6 +29,19 @@ const sendMessage = window.parent.postMessage;
 
 
 
+function handleDeckClick(_e: MouseEvent, player: Player) {
+
+
+    try {
+        if (player.state === State.Choose) {
+            const card = game.deck.pop();
+            player.choose(card);
+            displayPlayerHand(player);
+        }
+    } catch (err) {
+        console.error(`Failed to get card from deck. ${err}`);
+    }
+}
 
 // function timer(anon: Function) {
 //     const Trials = 100;

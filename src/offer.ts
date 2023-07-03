@@ -1,6 +1,6 @@
 import QrScanner from "qr-scanner";
 import { readQrCode } from "./qrcode";
-import { addAnswer, createOffer } from "./webrtc";
+import { addAnswer, createOffer, sendMessage } from "./webrtc";
 
 const videoEl = document.getElementById("scan") as HTMLVideoElement;
 
@@ -16,3 +16,11 @@ readQrCode((scanner: QrScanner, data: RTCSessionDescriptionInit) => {
 
 }, videoEl);
 
+window.addEventListener("message", receiveMessage);
+
+function receiveMessage(event: MessageEvent) {
+    console.log("Received From iframe", event.data);
+
+    sendMessage(event.data);
+
+}

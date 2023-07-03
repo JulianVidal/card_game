@@ -1,5 +1,4 @@
 import { createQrCode } from "./qrcode";
-import { handleDCMessage as handleMessage, handleDCOpen as handleOpen } from './answer';
 
 let pc: RTCPeerConnection;
 let dataChannel: RTCDataChannel;
@@ -84,3 +83,34 @@ export function sendMessage(msg: string) {
     dataChannel.send(msg);
     console.log("Sent to DC " + msg);
 }
+
+function sendIframMessage(msg: string) {
+    const game = document.getElementById("game") as HTMLIFrameElement;
+    if (game) {
+        if (game.contentWindow) {
+            console.log(`Sent ${msg} to iframe ${window.location.pathname}`);
+            game.contentWindow.postMessage(msg);
+        }
+    }
+}
+
+function handleMessage(e: MessageEvent) {
+    console.log("Received DC message:" + e.data);
+
+    sendIframMessage(e.data);
+};
+
+function handleOpen() {
+    console.log("------ DATACHANNEL OPENED ------");
+    const rtcElement = document.getElementById("webrtc");
+    if (rtcElement) {
+        rtcElement.hidden = true;
+    }
+
+    const gameElement = document.getElementById("game");
+    if (gameElement) {
+        gameElement.hidden = false;
+    }
+
+    sendIframMessage("start");
+};
