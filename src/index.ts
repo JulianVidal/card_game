@@ -6,10 +6,11 @@ window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage({ data }: MessageEvent) {
     console.log(`Host Received from window ${data}`);
+    const [cmd, arg] = data.split(/ (.*)/s);
 
-    switch (data) {
+    switch (cmd) {
         case "start":
-            setup(game.player, handleDeckClick);
+            setup(game.player, handleDeckClick, handleNextClick);
             sendMessage("hand " + JSON.stringify(game.players[1].hand));
             console.log("Host Started");
             console.log("Sent hand");
@@ -21,6 +22,9 @@ function receiveMessage({ data }: MessageEvent) {
         case "pop":
             sendMessage("deck " + game.deck.pop());
             console.log("Sent deck pop");
+            break;
+        case "next":
+            game.player.addReserve(parseInt(arg));
             break;
     }
 }
@@ -43,6 +47,19 @@ function handleDeckClick(_e: MouseEvent, player: Player) {
     }
 }
 
+function handleNextClick(_e: MouseEvent, player: Player, selectedElement: HTMLImageElement | null) {
+    try {
+        if (selectedElement !== null) {
+            const index = parseInt(selectedElement.dataset.index || "-1");
+            const card = player.leave(index);
+
+            game.nextPlayer(card);
+            displayPlayerHand(player);
+        }
+    } catch (err) {
+        console.error(`Failed to leave card. ${err}`);
+    }
+}
 // function timer(anon: Function) {
 //     const Trials = 100;
 //     const start = performance.now();

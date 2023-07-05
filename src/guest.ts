@@ -13,7 +13,7 @@ function receiveMessage({ data }: MessageEvent) {
 
     switch (cmd) {
         case "start":
-            setup(game.player, handleDeckClick);
+            setup(game.player, handleDeckClick, handleNextClick);
             console.log("Guest Started");
             break;
         case "hand":
@@ -54,5 +54,21 @@ async function handleDeckClick(_e: MouseEvent, player: Player) {
         }
     } catch (err) {
         console.error(`Failed to get card from deck. ${err}`);
+    }
+}
+
+function handleNextClick(_e: MouseEvent, player: Player, selectedElement: HTMLImageElement | null) {
+    try {
+        if (selectedElement !== null) {
+            const index = parseInt(selectedElement.dataset.index || "-1");
+            const card = player.leave(index);
+
+            sendMessage("next " + card);
+            console.log("Sent command next");
+
+            displayPlayerHand(player);
+        }
+    } catch (err) {
+        console.error(`Failed to leave card. ${err}`);
     }
 }

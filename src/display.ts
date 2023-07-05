@@ -2,7 +2,7 @@ import { getSVG } from "./cards";
 import { Player } from "./game";
 
 
-export function setup(player: Player, handleDeckClick: Function) {
+export function setup(player: Player, handleDeckClick: Function, handleNextClick: Function) {
     const deckElement = document.getElementById("deck");
     deckElement?.addEventListener("click", e => handleDeckClick(e, player));
 
@@ -10,27 +10,12 @@ export function setup(player: Player, handleDeckClick: Function) {
     reserveElement?.addEventListener("click", e => handleReserveClick(e, player));
 
     const nextElement = document.getElementById("next");
-    nextElement?.addEventListener("click", e => handleNextClick(e, player));
+    nextElement?.addEventListener("click", e => handleNextClick(e, player, selectedElement));
 
     const cardElements = document.querySelectorAll("#player>img");
     for (let i = 0; i < cardElements.length; i++) {
         const cardElement = cardElements[i] as HTMLImageElement;
         cardElement.addEventListener('click', e => handleClick(e, player));
-    }
-}
-
-function handleNextClick(_e: MouseEvent, player: Player) {
-    try {
-        if (selectedElement !== null) {
-            const index = parseInt(selectedElement.dataset.index || "-1");
-            const card = player.leave(index);
-
-            // game.nextPlayer(card);
-
-            displayPlayerHand(player);
-        }
-    } catch (err) {
-        console.error(`Failed to leave card. ${err}`);
     }
 }
 
