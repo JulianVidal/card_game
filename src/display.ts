@@ -10,7 +10,13 @@ export function setup(player: Player, handleDeckClick: Function, handleNextClick
     reserveElement?.addEventListener("click", e => handleReserveClick(e, player));
 
     const nextElement = document.getElementById("next");
-    nextElement?.addEventListener("click", e => handleNextClick(e, player, selectedElement));
+    nextElement?.addEventListener("click", e => {
+        handleNextClick(e, player, selectedElement);
+        if (selectedElement !== null) {
+            selectedElement.classList.remove("selected-card");
+            selectedElement = null;
+        }
+    });
 
     const cardElements = document.querySelectorAll("#player>img");
     for (let i = 0; i < cardElements.length; i++) {

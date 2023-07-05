@@ -31,6 +31,11 @@ function receiveMessage({ data }: MessageEvent) {
             }
             break;
 
+        case "next":
+            game.player.addReserve(parseInt(arg));
+            game.player.state = State.Choose;
+            displayPlayerHand(game.player);
+            break;
     }
 }
 

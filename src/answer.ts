@@ -21,6 +21,5 @@ function receiveMessage(event: MessageEvent) {
     console.log("Received From iframe", event.data);
 
     sendMessage(event.data);
-
 }
 

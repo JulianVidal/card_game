@@ -16,15 +16,17 @@ function receiveMessage({ data }: MessageEvent) {
             console.log("Sent hand");
 
             displayPlayerHand(game.player);
-
             console.log(JSON.stringify(game));
             break;
+
         case "pop":
             sendMessage("deck " + game.deck.pop());
             console.log("Sent deck pop");
             break;
+
         case "next":
-            game.player.addReserve(parseInt(arg));
+            game.nextPlayer(parseInt(arg));
+            displayPlayerHand(game.player);
             break;
     }
 }
@@ -34,8 +36,6 @@ const sendMessage = window.parent.postMessage;
 
 
 function handleDeckClick(_e: MouseEvent, player: Player) {
-
-
     try {
         if (player.state === State.Choose) {
             const card = game.deck.pop();
@@ -54,6 +54,8 @@ function handleNextClick(_e: MouseEvent, player: Player, selectedElement: HTMLIm
             const card = player.leave(index);
 
             game.nextPlayer(card);
+            sendMessage("next " + card);
+
             displayPlayerHand(player);
         }
     } catch (err) {
