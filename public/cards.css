@@ -9,6 +9,12 @@
 	border-radius: 5%;
 }
 
+
+
+#deck {
+	width: 29vw;
+}
+
 img.card {
 	width: 25vw;
 	max-width: 150px;
