@@ -4,7 +4,16 @@ import { Player } from "./game";
 
 export function setup(player: Player, handleDeckClick: Function, handleNextClick: Function) {
     const deckElement = document.getElementById("deck");
-    deckElement?.addEventListener("click", e => handleDeckClick(e, player));
+    deckElement?.addEventListener("click", e => {
+        handleDeckClick(e, player);
+
+        if (player.checkWin()) {
+            const winElement = document.getElementById("win");
+            if (winElement) {
+                winElement.innerHTML = "You Won"
+            }
+        }
+    });
 
     const reserveElement = document.getElementById("reserve");
     reserveElement?.addEventListener("click", e => handleReserveClick(e, player));
@@ -52,6 +61,14 @@ export function displayPlayerHand(player: Player) {
         }
     } else {
         throw new Error("Cards to replace not found");
+    }
+
+    const reserve = player.reserve[player.reserve.length - 1];
+    if (reserve) {
+        const reserveElement = document.getElementById("reserve") as HTMLImageElement;
+        if (reserveElement) {
+            reserveElement.src = "./cards/" + getSVG(reserve) + ".svg";
+        }
     }
 
 }

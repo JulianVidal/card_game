@@ -33,8 +33,6 @@ function receiveMessage({ data }: MessageEvent) {
 
 const sendMessage = window.parent.postMessage;
 
-
-
 function handleDeckClick(_e: MouseEvent, player: Player) {
     try {
         if (player.state === State.Choose) {

@@ -12,14 +12,12 @@ readQrCode((scanner: QrScanner, data: RTCSessionDescriptionInit) => {
     scanner.stop();
     videoEl.style.display = "none";
     createAnswer(data);
-
 }, videoEl);
 
 window.addEventListener("message", receiveMessage);
 
 function receiveMessage(event: MessageEvent) {
     console.log("Received From iframe", event.data);
-
     sendMessage(event.data);
 }
 
