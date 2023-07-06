@@ -8,15 +8,30 @@ export function setup(player: Player, handleDeckClick: Function, handleNextClick
         handleDeckClick(e, player);
 
         if (player.checkWin()) {
+            console.log("WON");
             const winElement = document.getElementById("win");
             if (winElement) {
                 winElement.innerHTML = "You Won"
             }
+        } else {
+            console.log("Lost or not");
         }
     });
 
     const reserveElement = document.getElementById("reserve");
-    reserveElement?.addEventListener("click", e => handleReserveClick(e, player));
+    reserveElement?.addEventListener("click", e => {
+        handleReserveClick(e, player);
+
+        if (player.checkWin()) {
+            console.log("WON");
+            const winElement = document.getElementById("win");
+            if (winElement) {
+                winElement.innerHTML = "You Won"
+            }
+        } else {
+            console.log("Lost or not");
+        }
+    });
 
     const nextElement = document.getElementById("next");
     nextElement?.addEventListener("click", e => {

@@ -2,6 +2,7 @@ import { displayPlayerHand, setup } from "./display";
 import { Game, Player, State } from "./game";
 
 const game = new Game(2);
+displayPlayerHand(game.player);
 window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage({ data }: MessageEvent) {

@@ -1,28 +1,41 @@
 #win {
 	font-size: 5rem;
 	position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 	text-align: center;
 	background-color: white;
 	border-radius: 5%;
 }
 
+#game {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: column;
+}
 
+#choices {
+	display: flex;
+	justify-content: center;
+	flex-flow: row;
+	width: 90vw;
+	margin: 10px;
+}
 
-#deck {
-	width: 29vw;
+#player {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	width: 80vw;
+	/* width: 100%; */
 }
 
 img.card {
-	width: 25vw;
-	max-width: 150px;
-	margin: 1vw;
-	padding: 0;
-	border: 0;
-	vertical-align: initial;
-	box-sizing: initial;
+	width: 15vw;
+	/* max-width: 150px; */
+	margin: 0.5vw;
 }
 
 img.card.selected-card {
