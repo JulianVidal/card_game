@@ -5,6 +5,13 @@ import { Player } from "./game";
 export function setup(player: Player, handleDeckClick: Function, handleNextClick: Function) {
     const deckElement = document.getElementById("deck");
     deckElement?.addEventListener("click", e => {
+
+        const cardElement = document.querySelector("#player .card[data-index='10']");
+        if (cardElement) {
+            const group = document.querySelectorAll("#player .group")[2];
+            group.appendChild(cardElement);
+        }
+
         handleDeckClick(e, player);
 
         if (player.checkWin()) {
@@ -20,6 +27,13 @@ export function setup(player: Player, handleDeckClick: Function, handleNextClick
 
     const reserveElement = document.getElementById("reserve");
     reserveElement?.addEventListener("click", e => {
+
+        const cardElement = document.querySelector("#player .card[data-index='10']");
+        if (cardElement) {
+            const group = document.querySelectorAll("#player .group")[2];
+            group.appendChild(cardElement);
+        }
+
         handleReserveClick(e, player);
 
         if (player.checkWin()) {
@@ -36,17 +50,41 @@ export function setup(player: Player, handleDeckClick: Function, handleNextClick
     const nextElement = document.getElementById("next");
     nextElement?.addEventListener("click", e => {
         handleNextClick(e, player, selectedElement);
+
         if (selectedElement !== null) {
+
+            const cardElements = document.querySelectorAll("#player img");
+            const index = parseInt(selectedElement.dataset.index || "-1");
+            for (let i = index + 1; i < cardElements.length; i++) {
+                const cardElement = cardElements[i] as HTMLImageElement;
+                cardElement.dataset.index = `${i - 1}`;
+            }
+
+            const group = document.querySelectorAll("#player group")[2];
+            const newCard = cardElements[0].cloneNode() as HTMLImageElement;
+            newCard.dataset.index = "10";
+            newCard.style.display = "none";
+            group.appendChild(newCard);
+
             selectedElement.classList.remove("selected-card");
             selectedElement = null;
         }
+
+
     });
 
-    const cardElements = document.querySelectorAll("#player>img");
+    const cardElements = document.querySelectorAll("#player img");
     for (let i = 0; i < cardElements.length; i++) {
         const cardElement = cardElements[i] as HTMLImageElement;
         cardElement.addEventListener('click', e => handleClick(e, player));
     }
+
+    const groupElements = document.querySelectorAll("#player .group");
+    for (let i = 0; i < groupElements.length; i++) {
+        const groupElement = groupElements[i] as HTMLDivElement;
+        groupElement.addEventListener('click', e => handleGroupClick(e));
+    }
+
 }
 
 function handleReserveClick(_e: MouseEvent, player: Player) {
@@ -61,17 +99,17 @@ function handleReserveClick(_e: MouseEvent, player: Player) {
 
 
 export function displayPlayerHand(player: Player) {
-    const cardElements = document.querySelectorAll("#player>img");
+    const cardElements = document.querySelectorAll("#player img");
 
     if (cardElements !== undefined) {
-        for (let i = 0; i < 11; i++) {
-            const card = player.hand[i];
+        for (let i = 0; i < cardElements.length; i++) {
             const cardElement = cardElements[i] as HTMLImageElement;
+            const index = parseInt(cardElement.dataset.index || "-1");
+            const card = player.hand[index];
+
             if (card !== undefined) {
                 cardElement.src = "./cards/" + getSVG(card) + ".svg";
-                cardElement.style.visibility = "";
-            } else {
-                cardElement.style.visibility = "hidden";
+                cardElement.style.display = "";
             }
         }
     } else {
@@ -106,15 +144,19 @@ function handleClick(e: MouseEvent, player: Player) {
         return;
     }
 
-    [selectedElement.src, target.src] = [target.src, selectedElement.src]
-
-    const index = parseInt(selectedElement.dataset.index || "0");
-    const jindex = parseInt(target.dataset.index || "0");
-    [player.hand[index], player.hand[jindex]] = [player.hand[jindex], player.hand[index]]
-
-
+    const group = target.parentNode as HTMLDivElement;
+    group?.insertBefore(selectedElement, target);
     selectedElement.classList.remove("selected-card");
     selectedElement = null;
 }
 
+function handleGroupClick(e: MouseEvent) {
+    if (selectedElement === null) return;
 
+
+    const group = e.target as HTMLDivElement;
+    group?.appendChild(selectedElement);
+
+    selectedElement.classList.remove("selected-card");
+    selectedElement = null;
+}

@@ -3,6 +3,7 @@ import { Game, Player, State } from "./game";
 
 const game = new Game(2);
 displayPlayerHand(game.player);
+setup(game.player, handleDeckClick, handleNextClick);
 window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage({ data }: MessageEvent) {
@@ -11,7 +12,6 @@ function receiveMessage({ data }: MessageEvent) {
 
     switch (cmd) {
         case "start":
-            setup(game.player, handleDeckClick, handleNextClick);
             sendMessage("hand " + JSON.stringify(game.players[1].hand));
             console.log("Host Started");
             console.log("Sent hand");

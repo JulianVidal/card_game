@@ -1,0 +1,66 @@
+#win {
+	font-size: 5rem;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+	background-color: white;
+	border-radius: 5%;
+}
+
+#game {
+	display: flex;
+	align-items: center;
+	flex-flow: column;
+}
+
+#choices {
+	display: flex;
+	justify-content: center;
+	flex-flow: row;
+	margin: 2vh;
+}
+
+#player {
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+
+}
+
+.group {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	align-items: start;
+
+	width: 100%;
+	min-width: calc(5 * (0.7167 * 15vh + 1vw));
+	
+	background: green;
+	margin: 0.5vh;
+	padding: 0.5vh;
+}
+
+.filler {
+	height: 16vh;
+	margin-top: 0.5vw;
+	margin-bottom: 0.5vw;
+}
+
+img.card {
+	height: 15vh;
+	margin: 0.5vw;
+
+	user-drag: none;
+    -webkit-user-drag: none;
+    user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+}
+
+img.card.selected-card {
+	transform: TranslateY(-5%);
+}
