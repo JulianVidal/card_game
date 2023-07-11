@@ -3,6 +3,11 @@
 	--card-ratio: 0.7168142914;
 }
 
+body {
+	display: flex;
+	background-color: #35654d;
+}
+
 #win {
 	font-size: 5rem;
 	position: absolute;
@@ -18,19 +23,51 @@
 	display: flex;
 	align-items: center;
 	flex-flow: column;
+	max-width: calc(5 * (var(--card-height) * var(--card-ratio) + 1vw));
+	width: 100vw;
+	margin: auto;
 }
 
 #choices {
 	display: flex;
-	justify-content: center;
 	flex-flow: row;
 	margin: 2vh;
+	width: 100%;
+}
+
+#choices>#next {
+	border: 2px solid #F6F4F4;
+	border-radius: 7px;
+	margin: 0.5vw;
+	padding: 0.5vh;
+
+	margin-left: auto;
+
+	height: var(--card-height);
+	width: calc(var(--card-height) * var(--card-ratio));
+}
+
+#choices>#reserve {
+	outline:none;
+	border: 2px solid #F6F4F4;
+	border-radius: 7px;
+
+	margin: 0.5vw;
+	padding: 0.5vh;
+
+	height: var(--card-height);
+	width: calc(var(--card-height) * var(--card-ratio));
+}
+
+#choices>#deck {
+	height: calc(var(--card-height) + 2vh);
 }
 
 #player {
 	display: flex;
 	align-items: center;
 	flex-direction: column;
+	width: 100%;
 }
 
 .group {
@@ -38,13 +75,14 @@
 	flex-direction: row;
 	flex-wrap: nowrap;
 	align-items: start;
-
-	max-width: calc(5 * (var(--card-height) * var(--card-ratio) + 1vw));
-	width: 100vw;
+	width: 100%;
 	
-	background: green;
+	/* background: ; */
 	margin: 0.5vh;
 	padding: 0.5vh;
+
+	border: 2px solid #F6F4F4;
+	border-radius: 15px;
 }
 
 .filler {
@@ -72,9 +110,5 @@ img.card.selected-card {
 @media (max-aspect-ratio: 1/1) {
 	:root {
 		--card-height: calc(15vw / var(--card-ratio));
-	}
-
-	body {
-		background-color: black;
 	}
 }

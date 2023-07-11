@@ -110,7 +110,7 @@ export function displayPlayerHand(player: Player) {
             if (card !== undefined) {
                 cardElement.src = "./cards/" + getSVG(card) + ".svg";
 
-                if (i === 10) {
+                if (cardElement.dataset.index === "10") {
                     cardElement.style.display = "";
                     cardElement.classList.add('card');
                 }
