@@ -109,8 +109,13 @@ export function displayPlayerHand(player: Player) {
 
             if (card !== undefined) {
                 cardElement.src = "./cards/" + getSVG(card) + ".svg";
-                cardElement.style.display = "";
+
+                if (i === 10) {
+                    cardElement.style.display = "";
+                    cardElement.classList.add('card');
+                }
             }
+
         }
     } else {
         throw new Error("Cards to replace not found");
@@ -145,7 +150,10 @@ function handleClick(e: MouseEvent, player: Player) {
     }
 
     const group = target.parentNode as HTMLDivElement;
-    group?.insertBefore(selectedElement, target);
+    if (group?.querySelectorAll(".card").length < 5 || group === selectedElement.parentNode) {
+        group?.insertBefore(selectedElement, target);
+    }
+
     selectedElement.classList.remove("selected-card");
     selectedElement = null;
 }
@@ -155,8 +163,9 @@ function handleGroupClick(e: MouseEvent) {
 
 
     const group = e.target as HTMLDivElement;
-    group?.appendChild(selectedElement);
-
+    if (group?.querySelectorAll(".card").length < 5) {
+        group?.appendChild(selectedElement);
+    }
     selectedElement.classList.remove("selected-card");
     selectedElement = null;
 }

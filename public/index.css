@@ -1,3 +1,8 @@
+:root {
+	--card-height: 19vh;
+	--card-ratio: 0.7168142914;
+}
+
 #win {
 	font-size: 5rem;
 	position: absolute;
@@ -26,7 +31,6 @@
 	display: flex;
 	align-items: center;
 	flex-direction: column;
-
 }
 
 .group {
@@ -35,8 +39,8 @@
 	flex-wrap: nowrap;
 	align-items: start;
 
-	width: 100%;
-	min-width: calc(5 * (0.7167 * 15vh + 1vw));
+	max-width: calc(5 * (var(--card-height) * var(--card-ratio) + 1vw));
+	width: 100vw;
 	
 	background: green;
 	margin: 0.5vh;
@@ -44,16 +48,16 @@
 }
 
 .filler {
-	height: 16vh;
+	height: var(--card-height);
 	margin-top: 0.5vw;
 	margin-bottom: 0.5vw;
 }
 
+
 img.card {
-	height: 15vh;
+	height: var(--card-height);
 	margin: 0.5vw;
 
-	user-drag: none;
     -webkit-user-drag: none;
     user-select: none;
     -moz-user-select: none;
@@ -63,4 +67,14 @@ img.card {
 
 img.card.selected-card {
 	transform: TranslateY(-5%);
+}
+
+@media (max-aspect-ratio: 1/1) {
+	:root {
+		--card-height: calc(15vw / var(--card-ratio));
+	}
+
+	body {
+		background-color: black;
+	}
 }

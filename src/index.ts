@@ -26,6 +26,7 @@ function receiveMessage({ data }: MessageEvent) {
             break;
 
         case "next":
+            console.log("Received next");
             game.nextPlayer(parseInt(arg));
             displayPlayerHand(game.player);
             break;

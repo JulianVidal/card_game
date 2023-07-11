@@ -32,6 +32,7 @@ function receiveMessage({ data }: MessageEvent) {
             break;
 
         case "next":
+            console.log("Received next");
             game.player.addReserve(parseInt(arg));
             game.player.state = State.Choose;
             displayPlayerHand(game.player);
