@@ -55,8 +55,8 @@ function handleNextClick(_e: MouseEvent, player: Player, selectedElement: HTMLIm
 
             game.nextPlayer(card);
             sendMessage("next " + card);
-
             displayPlayerHand(player);
+
         }
     } catch (err) {
         console.error(`Failed to leave card. ${err}`);
