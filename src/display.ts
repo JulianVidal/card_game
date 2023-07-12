@@ -167,7 +167,7 @@ export function displayPlayerHand(player: Player) {
             leaveElement.style.borderColor = green;
         }
 
-        if (player.state === State.Wait) {{
+        if (player.state === State.Wait) {
             deckElement.style.outlineColor = white;
             reserveElement.style.borderColor = white;
             leaveElement.style.borderColor = white;
