@@ -1,11 +1,26 @@
+body {
+	background-color: #E0F0E0;
+}
+
+h1 {
+	text-align: center;
+	font-family: sans-serif;
+}
+
 #qr {
 	width: min(95vw, 95vh);
 	margin: auto;
 }
 
+#webrtc {
+	display: flex;
+	flex-direction: column;
+}
+
 #scan {
-	width: min(95vw, 95vh);
+	width: min(100vw, 100vh);
 	margin: auto;
+
 }
 
 #qr>svg {
