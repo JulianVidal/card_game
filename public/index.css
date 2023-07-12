@@ -3,9 +3,6 @@
 	--card-ratio: 0.7168142914;
 }
 
-html {
-}
-
 body {
 	display: flex;
 	background-color: #35654d;
@@ -81,7 +78,16 @@ body {
 }
 
 #choices>#deck {
-	height: calc(var(--card-height) + 2vh);
+	box-shadow: inset 12px -22px 15px -1px rgba(0,0,0,0.36);
+
+	outline: solid 2px #F6F4F4;
+	border-radius: 7px;
+
+	margin: calc(0.5vw + 2px);
+	padding: 0.5vh;
+
+	height: var(--card-height);
+	width: calc(var(--card-height) * var(--card-ratio));
 }
 
 #player {

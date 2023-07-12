@@ -148,6 +148,33 @@ export function displayPlayerHand(player: Player) {
         }
     }
 
+    const deckElement = document.getElementById("deck");
+    const leaveElement = document.getElementById("next");
+
+    const white = "#F6F4F4";
+    const green = "#00c86c";
+
+    if (deckElement && reserveElement && leaveElement) {
+        if (player.state === State.Choose) {
+            deckElement.style.outlineColor = green;
+            reserveElement.style.borderColor = green;
+            leaveElement.style.borderColor = white;
+        }
+
+        if (player.state === State.Leave) {
+            deckElement.style.outlineColor = white;
+            reserveElement.style.borderColor = white;
+            leaveElement.style.borderColor = green;
+        }
+
+        if (player.state === State.Wait) {{
+            deckElement.style.outlineColor = white;
+            reserveElement.style.borderColor = white;
+            leaveElement.style.borderColor = white;
+
+        }
+    }
+
 }
 
 let selectedElement: HTMLImageElement | null = null;
