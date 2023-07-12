@@ -3,9 +3,17 @@
 	--card-ratio: 0.7168142914;
 }
 
+html {
+}
+
 body {
 	display: flex;
 	background-color: #35654d;
+	margin: 0;
+
+	height: 100%;
+	width: 100%;
+	-webkit-overflow-scrolling: touch;
 }
 
 #win {
@@ -24,7 +32,7 @@ body {
 	align-items: center;
 	flex-flow: column;
 	max-width: calc(5 * (var(--card-height) * var(--card-ratio) + 1vw));
-	width: 100vw;
+	width: 100%;
 	margin: auto;
 }
 
@@ -45,6 +53,19 @@ body {
 
 	height: var(--card-height);
 	width: calc(var(--card-height) * var(--card-ratio));
+
+	color: #F6F4F4;
+	text-align: center;
+	font-family:  sans-serif;
+	font-weight: 900;
+	letter-spacing: 3px;
+	line-height: 35px;
+	font-size: calc(var(--card-height) * var(--card-ratio) / 5);
+
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 #choices>#reserve {

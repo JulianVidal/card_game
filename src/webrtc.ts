@@ -27,7 +27,7 @@ async function createPeerConnection() {
     // dataChannel.onmessage = handleMessage;
     // dataChannel.onopen = handleOpen;
     // dataChannel.onclose = handleClose;
-    // dataChannel.onerror = handleError;
+    dataChannel.onerror = handleError;
 
     pc.ondatachannel = function(event: RTCDataChannelEvent) {
         const receive = event.channel;
@@ -104,7 +104,8 @@ function handleOpen() {
     console.log("------ DATACHANNEL OPENED ------");
     const rtcElement = document.getElementById("webrtc");
     if (rtcElement) {
-        rtcElement.hidden = true;
+        // rtcElement.hidden = true;
+        rtcElement.style.display = "none";
     }
 
     const gameElement = document.getElementById("game");

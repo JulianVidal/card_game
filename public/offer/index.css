@@ -1,11 +1,27 @@
+#webrtc {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+#container {
+	flex-grow: 1;
+	overflow-y: hidden;
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+
+}
+
 #qr {
-	width: min(95vw, 95vh);
-	margin: auto;
+	width: 50%;
 }
 
 #scan {
-	width: min(95vw, 95vh);
-	margin: auto;
+	width: 50vw;
 }
 
 #qr>svg {
@@ -14,6 +30,22 @@
 }
 
 #game {
-	width: 100%;
+	width: 100vw;
 	height: 100%;
+}
+
+
+@media (max-aspect-ratio: 1/1) {
+	#container {
+		flex-direction: column;
+	}
+
+	#qr {
+		width: 40vh;
+	}
+
+	#scan {
+		height: 50%;
+		width: auto;
+	}
 }

@@ -60,8 +60,9 @@ export function setup(player: Player, handleDeckClick: Function, handleNextClick
                 cardElement.dataset.index = `${i - 1}`;
             }
 
-            const group = document.querySelectorAll("#player group")[2];
-            const newCard = cardElements[0].cloneNode() as HTMLImageElement;
+            const group = document.querySelectorAll("#player .group")[2];
+            const newCard = document.createElement("img");
+
             newCard.dataset.index = "10";
             newCard.style.display = "none";
             group.appendChild(newCard);
@@ -122,10 +123,12 @@ export function displayPlayerHand(player: Player) {
     }
 
     const reserve = player.reserve[player.reserve.length - 1];
-    if (reserve) {
-        const reserveElement = document.getElementById("reserve") as HTMLImageElement;
-        if (reserveElement) {
+    const reserveElement = document.getElementById("reserve") as HTMLImageElement;
+    if (reserveElement) {
+        if (reserve) {
             reserveElement.src = "./cards/" + getSVG(reserve) + ".svg";
+        } else { 
+            reserveElement.src = "./cards/transparent.png";
         }
     }
 
