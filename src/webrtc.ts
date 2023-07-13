@@ -1,7 +1,13 @@
 import { createQrCode } from "./qrcode";
 
-let pc: RTCPeerConnection;
-let dataChannel: RTCDataChannel;
+// let pc: RTCPeerConnection;
+// let dataChannel: RTCDataChannel;
+//
+
+export type Connection = {
+    pc: RTCPeerConnection;
+    dc: RTCDataChannel;
+};
 
 const servers = {
     iceServers: [
@@ -16,10 +22,10 @@ const servers = {
 
 // const servers = {"iceServers":[]};
 
-async function createPeerConnection() {
-    pc = new RTCPeerConnection(servers);
+async function createPeerConnection(handleOpen: () => any ): Promise<Connection> {
+    const pc = new RTCPeerConnection(servers);
 
-    dataChannel = pc.createDataChannel("datachannel");
+    const dc = pc.createDataChannel("datachannel");
 
     const handleClose = function() { console.log("------- DC closed! -------") };
     const handleError = function() { console.log("DC ERROR!!!") };
@@ -27,7 +33,7 @@ async function createPeerConnection() {
     // dataChannel.onmessage = handleMessage;
     // dataChannel.onopen = handleOpen;
     // dataChannel.onclose = handleClose;
-    dataChannel.onerror = handleError;
+    dc.onerror = handleError;
 
     pc.ondatachannel = function(event: RTCDataChannelEvent) {
         const receive = event.channel;
@@ -48,43 +54,45 @@ async function createPeerConnection() {
             }
         }
     }
+
+    return { pc, dc };
 }
 
-export async function createOffer() {
-    createPeerConnection();
-    const offer = await pc.createOffer();
-    await pc.setLocalDescription(offer);
-
-    createQrCode(offer);
-}
+export async function createOffer(handleOpen: () => any): Promise<Connection> {
+    const connection = await createPeerConnection(handleOpen);
+    const offer = await connection.pc.createOffer();
+    await connection.pc.setLocalDescription(offer);
 
 
-export async function createAnswer(offer: RTCSessionDescriptionInit) {
-    createPeerConnection();
-
-    await pc.setRemoteDescription(offer)
-
-    const answer = await pc.createAnswer()
-    await pc.setLocalDescription(answer)
-    createQrCode(answer);
+    return connection;
 }
 
 
-export async function addAnswer(answer: RTCSessionDescriptionInit) {
+export async function createAnswer(offer: RTCSessionDescriptionInit, handleOpen: () => any): Promise<Connection> {
+    const connection = await createPeerConnection(handleOpen);
+    await connection.pc.setRemoteDescription(offer)
+
+    const answer = await connection.pc.createAnswer()
+    await connection.pc.setLocalDescription(answer)
+
+    return connection;
+}
+
+
+export async function addAnswer(answer: RTCSessionDescriptionInit, pc: RTCPeerConnection) {
     if (!pc.currentRemoteDescription) {
         pc.setRemoteDescription(answer)
     } else {
         throw new Error("Connection already made");
     }
-
 }
 
-export function sendMessage(msg: string) {
-    dataChannel.send(msg);
+export function sendMessage(msg: string, dc: RTCDataChannel) {
+    dc.send(msg);
     console.log("Sent to DC " + msg);
 }
 
-function sendIframMessage(msg: string) {
+export function sendIframeMessage(msg: string) {
     const game = document.getElementById("game") as HTMLIFrameElement;
     if (game) {
         if (game.contentWindow) {
@@ -97,21 +105,6 @@ function sendIframMessage(msg: string) {
 function handleMessage(e: MessageEvent) {
     console.log("Received DC message:" + e.data);
 
-    sendIframMessage(e.data);
+    sendIframeMessage(e.data);
 };
 
-function handleOpen() {
-    console.log("------ DATACHANNEL OPENED ------");
-    const rtcElement = document.getElementById("webrtc");
-    if (rtcElement) {
-        // rtcElement.hidden = true;
-        rtcElement.style.display = "none";
-    }
-
-    const gameElement = document.getElementById("game");
-    if (gameElement) {
-        gameElement.hidden = false;
-    }
-
-    sendIframMessage("start");
-};

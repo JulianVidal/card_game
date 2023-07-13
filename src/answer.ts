@@ -1,6 +1,6 @@
 import QrScanner from "qr-scanner";
 import { readQrCode } from "./qrcode";
-import { createAnswer, sendMessage } from "./webrtc";
+import { createAnswer, sendIframeMessage, sendMessage } from "./webrtc";
 
 const videoEl = document.getElementById("scan") as HTMLVideoElement;
 
@@ -8,16 +8,30 @@ if (!videoEl) {
     throw new Error("Video Element not found");
 }
 
-readQrCode((scanner: QrScanner, data: RTCSessionDescriptionInit) => {
+readQrCode(async (scanner: QrScanner, data: RTCSessionDescriptionInit) => {
     scanner.stop();
     videoEl.style.display = "none";
-    createAnswer(data);
+
+    const { dc } = await createAnswer(data, handleOpen);
+
+    window.addEventListener("message", ({ data }: MessageEvent) => {
+        console.log("Received From iframe", data);
+        sendMessage(data, dc);
+    });
+
 }, videoEl);
 
-window.addEventListener("message", receiveMessage);
+function handleOpen() {
+    console.log("------ DATACHANNEL OPENED ------");
+    const rtcElement = document.getElementById("webrtc");
+    if (rtcElement) {
+        rtcElement.style.display = "none";
+    }
 
-function receiveMessage(event: MessageEvent) {
-    console.log("Received From iframe", event.data);
-    sendMessage(event.data);
-}
+    const gameElement = document.getElementById("game");
+    if (gameElement) {
+        gameElement.hidden = false;
+    }
 
+    sendIframeMessage("start");
+};

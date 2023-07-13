@@ -55,8 +55,8 @@ body {
 	text-align: center;
 	font-family:  sans-serif;
 	font-weight: 900;
-	letter-spacing: 3px;
-	line-height: 35px;
+	letter-spacing: 1vw;
+	line-height: 4vw;
 	font-size: calc(var(--card-height) * var(--card-ratio) / 5);
 
 
@@ -78,7 +78,7 @@ body {
 }
 
 #choices>#deck {
-	box-shadow: inset 12px -22px 15px -1px rgba(0,0,0,0.36);
+	/* box-shadow: inset 12px -22px 15px -1px rgba(0,0,0,0.36); */
 
 	outline: solid 2px #F6F4F4;
 	border-radius: 7px;
