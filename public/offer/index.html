@@ -55,6 +55,13 @@
             if (number === 2) return;
             numberElement.innerText = `${number - 1}`;
         }
+
+        function start() {
+            document.getElementById("number-container").style.display = "none";
+            document.getElementById("webrtc").style.display = "";
+
+            startConnection();
+        }
     </script>
 </body>
 

@@ -1,19 +1,25 @@
 import QrScanner from 'qr-scanner';
 import qrcode from 'qrcode-generator';
+import { Player } from './game';
 
+let scanner: QrScanner;
 export function readQrCode(callback: Function, videoElement: HTMLVideoElement) {
-    videoElement.style.display = "";
 
-    const qrScanner = new QrScanner(
-        videoElement,
-        ({data}) => {
-            videoElement.style.display = "none";
-            callback(qrScanner, JSON.parse(data));
-        },
-        { highlightScanRegion: true,
-        onDecodeError: () => {}}
-    );
-    qrScanner.start();
+    if (!scanner) {
+        scanner = new QrScanner(
+            videoElement,
+            ({ data }) => {
+                scanner.stop();
+                callback(JSON.parse(data));
+            },
+            {
+                highlightScanRegion: true,
+                onDecodeError: () => { }
+            }
+        );
+    }
+
+    scanner.start();
 }
 
 export function createQrCode(data: RTCSessionDescriptionInit) {

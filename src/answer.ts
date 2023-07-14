@@ -1,4 +1,3 @@
-import QrScanner from "qr-scanner";
 import { readQrCode } from "./qrcode";
 import { createAnswer, sendIframeMessage, sendMessage } from "./webrtc";
 
@@ -8,11 +7,9 @@ if (!videoEl) {
     throw new Error("Video Element not found");
 }
 
-readQrCode(async (scanner: QrScanner, data: RTCSessionDescriptionInit) => {
-    scanner.stop();
-    videoEl.style.display = "none";
-
+readQrCode(async (data: RTCSessionDescriptionInit) => {
     const { dc } = await createAnswer(data, handleOpen);
+    videoEl.style.display = "none";
 
     window.addEventListener("message", ({ data }: MessageEvent) => {
         console.log("Received From iframe", data);

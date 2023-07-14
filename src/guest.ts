@@ -1,8 +1,8 @@
 import { Card } from "./cards";
 import { displayPlayerHand, setup } from "./display";
-import { GameGuest, Player, State } from "./game";
+import { Player, State } from "./game";
 
-const game = new GameGuest();
+let player: Player;
 let deckResolve: (value: number | PromiseLike<number>) => void;
 
 window.addEventListener("message", receiveMessage);
@@ -13,15 +13,17 @@ function receiveMessage({ data }: MessageEvent) {
 
     switch (cmd) {
         case "start":
-            setup(game.player, handleDeckClick, handleNextClick);
+            player = new Player();
+            setup(player, handleDeckClick, handleNextClick);
             console.log("Guest Started");
             break;
-        case "hand":
-            game.player.hand = JSON.parse(arg);
-            console.log("Received Hand");
-            console.log("Actual player", game.player.hand);
 
-            displayPlayerHand(game.player);
+        case "setup":
+            player.hand = JSON.parse(arg);
+            console.log("Received Hand");
+            console.log("Actual player", player.hand);
+
+            displayPlayerHand(player);
             break;
         case "deck":
             console.log("Received Deck pop");
@@ -33,9 +35,9 @@ function receiveMessage({ data }: MessageEvent) {
 
         case "next":
             console.log("Received next");
-            game.player.addReserve(parseInt(arg));
-            game.player.state = State.Choose;
-            displayPlayerHand(game.player);
+            player.addReserve(parseInt(arg));
+            player.state = State.Choose;
+            displayPlayerHand(player);
             break;
     }
 }

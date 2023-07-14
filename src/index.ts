@@ -1,9 +1,7 @@
 import { displayPlayerHand, setup } from "./display";
 import { Game, Player, State } from "./game";
 
-const game = new Game(2);
-displayPlayerHand(game.player);
-setup(game.player, handleDeckClick, handleNextClick);
+let game: Game;
 window.addEventListener("message", receiveMessage, false);
 
 function receiveMessage({ data }: MessageEvent) {
@@ -12,28 +10,45 @@ function receiveMessage({ data }: MessageEvent) {
 
     switch (cmd) {
         case "start":
-            sendMessage("hand " + JSON.stringify(game.players[1].hand));
-            console.log("Host Started");
-            console.log("Sent hand");
+            game = new Game(parseInt(arg));
+            displayPlayerHand(game.player);
+            setup(game.player, handleDeckClick, handleNextClick);
 
+            for (let i = 1; i < game.players.length; i++) {
+                sendMessage(i, `setup ${JSON.stringify(game.players[i].hand)}`);
+                console.log("Sent " + i + " setup");
+            }
+
+            console.log("Host Started");
             displayPlayerHand(game.player);
             console.log(JSON.stringify(game));
             break;
 
         case "pop":
-            sendMessage("deck " + game.deck.pop());
+            sendMessage(game.playerIndex, "deck " + game.deck.pop());
             console.log("Sent deck pop");
             break;
 
         case "next":
             console.log("Received next");
-            game.nextPlayer(parseInt(arg));
-            displayPlayerHand(game.player);
+
+            game.nextPlayer();
+
+            if (game.playerIndex === 0) {
+                game.player.addReserve(parseInt(arg));
+                game.player.state = State.Choose;
+                displayPlayerHand(game.player);
+            } else {
+                sendMessage(game.playerIndex, "next " + arg);
+            }
+
             break;
     }
 }
 
-const sendMessage = window.parent.postMessage;
+const sendMessage = (player: string | number, msg: string) => {
+    window.parent.postMessage(`${player} ${msg}`);
+}
 
 function handleDeckClick(_e: MouseEvent, player: Player) {
     try {
@@ -53,8 +68,8 @@ function handleNextClick(_e: MouseEvent, player: Player, selectedElement: HTMLIm
             const index = parseInt(selectedElement.dataset.index || "-1");
             const card = player.leave(index);
 
-            game.nextPlayer(card);
-            sendMessage("next " + card);
+            game.nextPlayer();
+            sendMessage(game.playerIndex, "next " + card);
             displayPlayerHand(player);
 
         }

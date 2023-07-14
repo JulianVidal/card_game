@@ -1,4 +1,3 @@
-import QrScanner from "qr-scanner";
 import { readQrCode } from "./qrcode";
 import { Connection, addAnswer, createOffer, sendIframeMessage, sendMessage } from "./webrtc";
 
@@ -20,33 +19,24 @@ async function createConnection() {
 
     function handleOpen() {
         console.log("------ DATACHANNEL OPENED ------");
-
         connectionResolve();
     };
 
-    const { pc } = await createOffer(handleOpen);
+    const connection = await createOffer(handleOpen);
+    connections.push(connection);
     let connectionResolve: (value: void | PromiseLike<number>) => void;
 
-    readQrCode((scanner: QrScanner, data: RTCSessionDescriptionInit) => {
-        scanner.stop();
-        document.querySelector("#qr>svg")?.remove();
-        videoEl.style.display = "none";
-        addAnswer(data, pc);
-
-
+    readQrCode((data: RTCSessionDescriptionInit) => {
+        addAnswer(data, connections[connections.length - 1].pc);
     }, videoEl);
 
-    window.addEventListener("message", ({ data }: MessageEvent) => {
-        console.log("Received From iframe", data);
-        const [connection, msg] = data.split(/ (.*)/s);
-        sendMessage(msg, connections[parseInt(connection)].dc);
-    });
 
     return new Promise((resolve, _) => {
         connectionResolve = resolve;
     });
 
 }
+
 
 async function start() {
     const numberContainer = document.getElementById("number-container");
@@ -63,9 +53,14 @@ async function start() {
         await createConnection();
     }
 
+    window.addEventListener("message", ({ data }: MessageEvent) => {
+        console.log("Received From iframe", data);
+        const [connection, msg] = data.split(/ (.*)/s);
+        sendMessage(msg, connections[parseInt(connection) - 1].dc);
+    });
+
     const rtcElement = document.getElementById("webrtc");
     if (rtcElement) {
-        // rtcElement.hidden = true;
         rtcElement.style.display = "none";
     }
 
@@ -74,6 +69,5 @@ async function start() {
         gameElement.hidden = false;
     }
 
-    sendIframeMessage("start");
-
+    sendIframeMessage("start " + number);
 }

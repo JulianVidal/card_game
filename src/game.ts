@@ -154,21 +154,9 @@ export class Game {
         }
     }
 
-    nextPlayer(card: Card) {
+    nextPlayer() {
         this.playerIndex = (this.playerIndex + 1) % this.players.length;
         this.player = this.players[this.playerIndex];
-
-        this.player.addReserve(card);
-        this.player.state = State.Choose;
-    }
-
-}
-
-export class GameGuest {
-    player: Player;
-
-    constructor() {
-        this.player = new Player();
     }
 
 }
