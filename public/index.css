@@ -55,9 +55,10 @@ body {
 	text-align: center;
 	font-family:  sans-serif;
 	font-weight: 900;
-	letter-spacing: 1vw;
-	line-height: 4vw;
+	letter-spacing: min(0.5vw, 0.5vh);
+	line-height: min(5vw, 5vh);
 	font-size: calc(var(--card-height) * var(--card-ratio) / 5);
+	text-align: center;
 
 
 	display: flex;
