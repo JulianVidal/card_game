@@ -2,12 +2,14 @@ const path = require('path');
 
 module.exports = {
   mode: "development",
+  target: "node",
   devtool: "inline-source-map",
   entry: {
     "index": "./src/index.ts",
+    "game/host": "./src/host.ts",
+    "game/guest": "./src/guest.ts",
     "offer/index": "./src/offer.ts",
     "answer/index": "./src/answer.ts",
-    "guest": "./src/guest.ts",
   },
   output: {
     path: path.resolve(__dirname, './public'),
