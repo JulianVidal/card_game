@@ -237,6 +237,7 @@
     "webpack-sources": "^3.2.3",
     "which": "^2.0.2",
     "wildcard": "^2.0.1",
+    "workbox-webpack-plugin": "^7.0.0",
     "wrap-ansi": "^7.0.0",
     "wrappy": "^1.0.2",
     "write-file-atomic": "^4.0.2",
