@@ -28,6 +28,7 @@ export function createQrCode(data: RTCSessionDescriptionInit) {
     qr.make();
     const el = document.getElementById('qr');
     if (el) {
+        el.style.display = "";
         el.innerHTML = qr.createSvgTag();
     } else {
         throw new Error("SVG container not found");
