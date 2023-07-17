@@ -1,5 +1,5 @@
-import { createCard, getRank, getSuit, Rank, RankEntries, shuffle, Suit, SuitEntries } from '../src/cards';
-import { Player, Game } from '../src/game';
+import { createCard, getRank, getSuit, Rank, RankEntries, shuffle, Suit, SuitEntries } from '../src/lib/cards';
+import { Player, Game } from '../src/lib/game';
 
 describe('Testing game file', () => {
 
