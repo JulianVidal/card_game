@@ -79,7 +79,7 @@ module.exports = env => {
         template: 'src/game/index.html',
         meta: { viewport: 'width=device-width, initial-scale=1' },
         base: basePath,
-        chunks: ['game/index']
+        chunks: ['guest/index']
       }),
       new CopyPlugin({
         patterns: [
