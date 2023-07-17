@@ -125,7 +125,7 @@ export function displayPlayerHand(player: Player) {
             const card = player.hand[index];
 
             if (card !== undefined) {
-                cardElement.src = "/cards/" + getSVG(card) + ".svg";
+                cardElement.src = "./cards/" + getSVG(card) + ".svg";
 
                 if (index === 10) {
                     cardElement.style.display = "";
@@ -142,9 +142,9 @@ export function displayPlayerHand(player: Player) {
     const reserveElement = document.getElementById("reserve") as HTMLImageElement;
     if (reserveElement) {
         if (reserve) {
-            reserveElement.src = "/cards/" + getSVG(reserve) + ".svg";
+            reserveElement.src = "./cards/" + getSVG(reserve) + ".svg";
         } else {
-            reserveElement.src = "/cards/transparent.png";
+            reserveElement.src = "./cards/transparent.png";
         }
     }
 

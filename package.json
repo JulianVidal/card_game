@@ -257,8 +257,7 @@
   "scripts": {
     "test": "jest",
     "build": "webpack",
-    "start": "webpack serve --mode development",
-    "dev": ""
+    "start": "webpack serve --mode development"
   },
   "keywords": [],
   "author": "",
