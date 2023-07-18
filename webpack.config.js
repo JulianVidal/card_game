@@ -10,7 +10,7 @@ module.exports = env => {
 
   return {
     mode: "development",
-    target: "node",
+    target: "web",
     devtool: "inline-source-map",
     entry: {
       "index": "./src/index.ts",
@@ -39,10 +39,6 @@ module.exports = env => {
           test: /\.css$/i,
           use: ['style-loader', 'css-loader'],
         },
-        // {
-        //   test: /\.html$/i,
-        //   loader: "html-loader",
-        // },
       ]
     },
     plugins: [
