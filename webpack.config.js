@@ -23,6 +23,7 @@ module.exports = env => {
       path: path.resolve(__dirname, './dist'),
       filename: "[name]-bundle.js", // <--- Will be compiled to this single file
       clean: true,
+      publicPath: './',
     },
     resolve: {
       extensions: [".ts", ".tsx", ".js"],
@@ -95,6 +96,7 @@ module.exports = env => {
         description: 'P2P Card game',
         background_color: '#35654d',
         publicPath: './',
+        ios: true,
         icons: [
           {
             src: path.resolve('src/icon.png'),
